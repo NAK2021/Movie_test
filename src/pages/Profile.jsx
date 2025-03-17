@@ -15,10 +15,11 @@ function Profile() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        await updateProfile(user, {
+        await setDisplayName(tempUsername);
+        updateProfile(user, {
             displayName: updateDisplayName,
         });
-        await setDisplayName(tempUsername);
+        
         setIsEditing(false);
     }
 
@@ -32,7 +33,7 @@ function Profile() {
           {/* Avatar */}
           <div className="avatar-wrapper">
             <img
-              src={user.photoURL || "../public/ava.jpg"}
+              src={user.photoURL || "../ava.jpg"}
               alt="Avatar"
               className="avatar"
             />

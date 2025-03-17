@@ -1,8 +1,8 @@
 import React, { useState } from 'react';  
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { auth } from "../auth";  
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { auth, googleProvider } from "../auth";  
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
 import GoogleLogin from './GoogleLogin';
 
 
@@ -25,9 +25,14 @@ const SignupForm = () => {
         }
     };  
 
-    const ggSignUp = async () => {
-        return ;
-    }
+    const handleGoogleLogin = async () => {
+            try {
+                await signInWithPopup(auth, googleProvider);
+                navigate("/");
+            } catch (error) {
+                console.error("Google Login failed", error.message);
+            }
+        };
 
     return (  
         <div className="container" style={{height:1024,}}>  
@@ -78,7 +83,9 @@ const SignupForm = () => {
                     />  
                 </div>  
                 <button type="submit" className="btn btn-primary">Sign up</button>  
-                {/* <GoogleLogin/>   */}
+                <div style={{marginTop: 10}}>
+                <button className='btn btn-secondary' onClick={handleGoogleLogin}>Google</button>
+                </div>
             </form>  
         </div>  
     );  

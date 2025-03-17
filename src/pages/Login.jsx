@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../auth";
 import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PasswordReset from './PasswordReset';
 import axios from 'axios';
   
@@ -14,6 +14,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');  
     const [password, setPassword] = useState(''); 
     const [error, setError] = useState(''); 
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {  
         e.preventDefault();
@@ -25,6 +26,7 @@ const LoginForm = () => {
             // .then(res => setUser(res.data))
             // .catch(err => console.error('Error log in:', err));
             await signInWithEmailAndPassword(auth, email, password);
+            navigate('/');
         } catch (error) {
             setError("Invalid email or password. Please try again.");
         }
@@ -33,8 +35,8 @@ const LoginForm = () => {
     console.log(user);
 
     if (user){
-        console.log("Have user");
-        return <Navigate to="/"/>;
+        // console.log("Have user");
+        navigate('/');
     }
 
     else{

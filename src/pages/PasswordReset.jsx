@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { auth, sendPasswordResetEmail } from "../auth";  
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function PasswordReset() {   
@@ -8,6 +8,8 @@ function PasswordReset() {
   const [error, setError] = useState('') // Reset error message  
   const [successMessage, setSuccessMessage] = useState(''); // Reset success message  
   const [email, setEmail] = useState('');  
+  const navigate = useNavigate();
+  
   
   const handleResetPassword = async (e) => {  
     e.preventDefault();  
@@ -15,15 +17,13 @@ function PasswordReset() {
 
     try {  
       await sendPasswordResetEmail(auth, email);  
-      setSuccessMessage('Password reset email sent! Please check your inbox.');  
+      setSuccessMessage('Password reset email sent! Please check your inbox.');
+      navigate('/login');
+
     } catch (error) {  
       setError(error.message);  
     }   
   };  
-
-  if (successMessage){
-    return <Navigate to="/login"/>;
-  }
 
   return (  
     <div style={{height: 1024,}}>  
@@ -41,7 +41,7 @@ function PasswordReset() {
             required  
           />  
         </div>  
-        <button type="submit" style={{marginTop: 10}}>Reset Password</button>  
+        <button className="btn btn-primary" type="submit" style={{marginTop: 10}}>Reset Password</button>  
       </form>  
     </div>  
   );  

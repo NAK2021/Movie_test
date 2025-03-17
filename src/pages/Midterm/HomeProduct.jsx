@@ -8,7 +8,17 @@ function HomeProduct() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const [price, setMaxPrice] = useState('');
+  const [rates, setMinRate] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const categories = [
+    "men's clothing",
+    "jewelery",
+    "electronics",
+    "women's clothing",
+  ];
+
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -25,7 +35,8 @@ function HomeProduct() {
 
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (!maxPrice || product.price <= maxPrice)
+    (!price || product.price <= price) && (!rates || product.rating.rate >= rates)
+    && product.category.toLowerCase().includes(selectedCategory.toLowerCase())
   );
 
   if (loading) return <div>Loading...</div>;
@@ -44,13 +55,39 @@ function HomeProduct() {
         <input
           type="number"
           placeholder="Max price"
-          value={maxPrice}
+          value={price}
           onChange={(e) => setMaxPrice(e.target.value)}
           className={styles.priceInput}
         />
-      </div>
+        <input
+          type="number"
+          placeholder="Rate"
+          value={rates}
+          onChange={(e) => setMinRate(e.target.value)}
+          className={styles.priceInput}
+          min="0"
+          max="5"
+        />
+          <select
+            className="p-2 border rounded-lg"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">-- All --</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          {/* {selectedCategory && (
+            <p className="text-blue-600 font-medium">
+              Selected: {selectedCategory}
+            </p>
+          )} */}
+        </div>
       <div className={styles.productGrid}>
-        {filteredProducts.map(product => (
+        {filteredProducts.map((product) => (
           <CardProduct key={product.id} product={product} />
         ))}
       </div>

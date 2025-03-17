@@ -8,6 +8,8 @@ function CardProduct({ product }) {
       <img src={product.image} alt={product.title} className={styles.image} />
       <h3>{product.title}</h3>
       <p>${product.price}</p>
+      <p>Rate: {product.rating.rate}/5⭐</p>
+      <p>{product.rating.count} Votes</p>
       <Link to={`product/detail/${product.id}`}>View Details</Link>
     </div>
   );

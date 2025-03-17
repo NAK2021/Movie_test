@@ -23,8 +23,11 @@ const DetailProduct = () => {
     <div className={styles.detailContainer}>
       <h2>{product.title}</h2>
       <img src={product.image} alt={product.title} className={styles.image} />
+      <h5>Category: {product.category}</h5>
       <p>{product.description}</p>
-      <p>Giá: ${product.price}</p>
+      <p>Price: ${product.price}</p>
+      <p>Rate: {product.rating.rate}/5⭐</p>
+      <p>{product.rating.count} Votes</p>
     </div>
   );
 };
