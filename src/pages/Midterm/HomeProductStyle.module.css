@@ -1,0 +1,24 @@
+/* pages/Home/Home.module.css */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .searchInput, .priceInput {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }

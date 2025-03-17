@@ -12,8 +12,9 @@ const MovieCard = ({ movie }) => {
           <div className="text-center p-5 bg-light">No Image</div>
         )}
         <div className="card-body">
-          <h5 className="card-title">{movie.title}</h5>  
-           
+          <h5 className="card-title">{movie.title}</h5> 
+          <h6 className="card-text">Rate: {movie.vote_average.toFixed(1)}/10</h6> 
+          <h6 className="card-text">Released Year: {movie.release_date.split("-")[0]}</h6> 
         </div>
       </div>
     );

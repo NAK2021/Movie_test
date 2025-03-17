@@ -1,9 +1,11 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
+  const { user, logout } = useAuth();
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -23,13 +25,13 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-dark p-3 container-fluid d-flex align-items-center justify-content-between">
       <h1 className="navbar-brand mb-0">
-        <Link to="/" className="text-decoration-none text-light">MovieApp</Link>
+        <Link to="/" className="text-decoration-none text-light">Men Store</Link>
       </h1>
 
       {/* Search Bar */}
-      <div className="d-flex">
+      {/* <div className="d-flex">
         <input type="text" className="form-control me-2" style={{ maxWidth: "400px" }}
-          placeholder="Search movies..."
+          placeholder="Search product..."
           value={searchTerm} onChange={handleSearchChange}
         />
         {searchTerm && (
@@ -37,12 +39,30 @@ const Navbar = () => {
             Clear
           </button>
         )}
-      </div>
+      </div> */}
 
       {/* Navigation Links */}
       <div>
-        <Link className="btn btn-outline-light me-2" to="/genre">Genres</Link>
-        <Link className="btn btn-outline-light" to="/test3">Test </Link>
+        {
+          user ? 
+          (
+            <>
+              <Link className="nav-link text-white" to="/profile"> Welcome, {user.displayName || user.email}!</Link>
+              {/* <Link className="btn btn-outline-light me-2" to="/favorites">Favorites </Link> */}
+              <button className="btn btn-danger" onClick={logout}>Logout</button>
+
+            </>
+          )
+          :(
+            <>
+              <Link className="btn btn-outline-light me-2" to="/login">Log in</Link>
+              <Link className="btn btn-outline-light me-2" to="/signup">Sign up</Link>
+            </>
+          )
+        }
+        {/* <Link className="btn btn-outline-light me-2" to="/genre">Genres</Link> */}
+        {/* <Link className="btn btn-outline-light me-2" to="/test3">Test </Link> */}
+        {/* <Link className="btn btn-outline-light me-2" to="/signup">Sign Up </Link> */}
       </div>
     </nav>
   );

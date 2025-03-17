@@ -7,7 +7,11 @@ const Genre = () => {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [releaseYear, setReleaseYear] = useState("");
-  const { movies, loading, error, fetchMovies } = useMovies(selectedGenre);
+  const [rates, setRates] = useState("");
+  const [isReset, setReset] = useState(false);
+
+  const { movies, loading, error } = useMovies(selectedGenre);
+  
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -30,13 +34,22 @@ const Genre = () => {
 
   const filteredMovies = movies.filter((movie) =>
     (selectedGenre ? movie.genre_ids.includes(Number(selectedGenre)) : true) &&
-    (releaseYear ? movie.release_date.startsWith(releaseYear) : true)
+    (releaseYear ? movie.release_date.startsWith(releaseYear) : true) &&
+    (rates ? movie.vote_average > parseInt(rates) : true)
   );
 
   return (
     <div className="container mt-4">
       <h1 className="mb-4 text-center">Movies by Genre</h1>
-      
+      <div className="col-md-6 w-auto">
+        <button className="btn btn-primary" onClick={() => {
+          setReset(true);
+          setSelectedGenre("");
+          setReleaseYear("");
+          setRates("");
+        }}>Reset</button>
+      </div>  
+
       {/* Genre Selection */}
       <div className="mb-3">
         <select value={selectedGenre} onChange={handleGenreChange} className="form-select w-auto">
@@ -46,6 +59,7 @@ const Genre = () => {
           ))}
         </select>
       </div>
+      
       
       {/* Filtering */}
       <div className="row mb-4">
@@ -60,6 +74,18 @@ const Genre = () => {
             max={new Date().getFullYear()}
           />
         </div>
+        <div className="col-md-6 w-auto">
+          <label className="form-label">Rates</label>
+          <input
+            type="number"
+            className="form-control"
+            value={rates}
+            onChange={(e) => setRates(e.target.value)}
+            min="1"
+            max="10"
+          />
+        </div>
+        
       </div>
       
       {/* Error Handling */}
